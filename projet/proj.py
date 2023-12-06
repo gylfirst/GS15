@@ -1,4 +1,7 @@
 # Importation des libraries
+import numpy as np
+import os
+import bitarray as ba
 
 
 # Fonction de chiffrement, déchiffrement de message
@@ -35,7 +38,7 @@ def menu():
         print("Bonjour ô maître Rémi ! Que souhaitez vous faire aujourd'hui ?")
         print("->1<- Chiffrer / déchiffrer des message.")
         print("->2<- Créer un couple de clé publique / privée (générer un grand nombre premier)")
-        print("->3<- Signer un certificat.")
+        print("->3<- Signer / générer un certificat.")
         print("->4<- Vérifier un certificat.")
         print("->5<- Enregistrer un document dans le coffre fort.")
         print("->6<- Envoyer un message (asynchrone).")
@@ -65,6 +68,7 @@ def menu():
                 def4()
                 def5()
                 def6()
+                def7()
             case _:
                 print("Vous avez fait une erreur dans la selection !")
 
