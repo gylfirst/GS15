@@ -2,7 +2,7 @@
 import numpy as np
 import os
 import bitarray as ba
-
+import functions.serp as serp, functions.inscription as inscription, functions.store as store
 
 # Fonction de chiffrement, déchiffrement de message
 def def1():
@@ -10,6 +10,8 @@ def def1():
 
 # Création d'un couple de clé publique/privée
 def def2():
+    infos=inscription.inscription_user()
+    store.log_user(infos)
     return
 
 # Signature d'un certificat
