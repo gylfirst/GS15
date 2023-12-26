@@ -83,6 +83,5 @@ def menu():
                 print("Vous avez fait une erreur dans la selection !")
 
 
-
 # Execution du script
 menu()
