@@ -16,13 +16,18 @@ def def2():
 
 # Signature d'un certificat
 def def3():
-    user=store.read_inf()
+    email=str(input("Quelle adresse mail voulez-vous recuperer ? "))
+    user=store.read_user_info(email)
     certificat_utilisateur = certificat.generer_certificat(user[0], int(user[1]), int(user[2]))
     store.log_cert(user[0],certificat_utilisateur)
     return
 
 # Vérification d'un certificat
 def def4():
+    email=str(input("Quelle adresse mail voulez-vous recuperer ? "))
+    user=store.read_user_info(email)
+    cert=store.read_cert_info(email)
+    certificat.verifier_certificat(user, int(cert[1]))
     return
 
 # Enregistrement d'un document dans un locker

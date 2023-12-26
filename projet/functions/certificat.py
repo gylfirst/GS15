@@ -15,3 +15,19 @@ def generer_certificat(email, cle_publique, cle_privee):
     print(f"Signature : {signature}")
     return signature
 
+
+# Fonction pour vérifier la signature d'un certificat
+def verifier_certificat(user, signature):
+    certificat = f"Email: {user[0]}\nClé publique: {int(user[1])}\n"
+    
+    # Hashage des données du certificat
+    hash_certificat = hashlib.sha256(certificat.encode()).hexdigest()
+
+    # Signature du certificat avec la clé privée
+    signature_base = pow(int(hash_certificat, 16), int(user[2]), int(user[1]))
+
+    if signature == signature_base:
+        print("Le certificat est valide")
+    else:
+        print("Le certificat n'est pas valide")
+
