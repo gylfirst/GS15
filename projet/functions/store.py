@@ -1,9 +1,11 @@
 # Module d'enregistrement dans un fichier
 
-user_file_path="projet/logs/user_ids.txt"
-cert_file_path="projet/logs/certs.txt"
+user_file_path = "projet/logs/user_ids.txt"
+cert_file_path = "projet/logs/certs.txt"
 
 # Enregistrement des logs des utilisateurs
+
+
 def log_user(user):
     try:
         with open(user_file_path, 'a') as file:
@@ -15,7 +17,7 @@ def log_user(user):
 
 # Lecture des fichiers
 def read_file(file):
-    ## Parcourir les lignes du fichier
+    # Parcourir les lignes du fichier
     try:
         with open(file, 'r') as file:
             for ligne in file:
@@ -38,14 +40,14 @@ def recuperer_info_cert(user):
 
 # Lecture et récupération des informations du fichier user_ids.txt
 def read_user_info(email):
-    cpt=0
+    cpt = 0
     for utilisateur in read_file(user_file_path):
-        info=recuperer_info(utilisateur)
+        info = recuperer_info(utilisateur)
         if email.strip() == info[0]:
             print("Utilisateur trouvé dans la base de données")
             return info
         else:
-            cpt+=1
+            cpt += 1
     if cpt == len(list(read_file(user_file_path))):
         print("Utilisateur non trouvé dans la base de données")
 
@@ -62,14 +64,13 @@ def log_cert(user, certificate):
 
 # Lecture et récupération des informations du fichier certs.txt
 def read_cert_info(email):
-    cpt=0
+    cpt = 0
     for utilisateur in read_file(cert_file_path):
-        info=recuperer_info_cert(utilisateur)
+        info = recuperer_info_cert(utilisateur)
         if email.strip() == info[0]:
             print("Certificat trouvé dans la base de données")
             return info
         else:
-            cpt+=1
+            cpt += 1
     if cpt == len(list(read_file(cert_file_path))):
         print("Certificat non trouvé dans la base de données")
-

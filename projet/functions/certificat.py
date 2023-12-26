@@ -3,9 +3,11 @@
 import hashlib
 
 # Fonction pour générer et signer un certificat
+
+
 def generer_certificat(email, cle_publique, cle_privee):
     certificat = f"Email: {email}\nClé publique: {cle_publique}\n"
-    
+
     # Hashage des données du certificat
     hash_certificat = hashlib.sha256(certificat.encode()).hexdigest()
 
@@ -19,7 +21,7 @@ def generer_certificat(email, cle_publique, cle_privee):
 # Fonction pour vérifier la signature d'un certificat
 def verifier_certificat(user, signature):
     certificat = f"Email: {user[0]}\nClé publique: {int(user[1])}\n"
-    
+
     # Hashage des données du certificat
     hash_certificat = hashlib.sha256(certificat.encode()).hexdigest()
 
@@ -30,4 +32,3 @@ def verifier_certificat(user, signature):
         print("Le certificat est valide")
     else:
         print("Le certificat n'est pas valide")
-

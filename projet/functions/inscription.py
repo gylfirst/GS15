@@ -3,6 +3,8 @@
 from random import getrandbits
 
 # Etape 1 : génération de couple de clés publiques et privées (1024 bits minimum)
+
+
 def generer_nombre_premier(taille):
     def est_premier(n, k=5):
 
@@ -43,25 +45,24 @@ def generer_nombre_premier(taille):
 def generer_couple_cles(taille):
     pubkey = generer_nombre_premier(taille)
     prvkey = generer_nombre_premier(taille)
-    key=str(pubkey)+':'+str(prvkey)
+    key = str(pubkey)+':'+str(prvkey)
     return key
 
 
 # Etape 2 : enregistrement à l'aide d'un identifiant(email - télélphone)
 def generer_user(key):
-    id=str(input('Quelle est votre adresse email ? '))
-    user=id+':'+key
+    id = str(input('Quelle est votre adresse email ? '))
+    user = id+':'+key
     return user
 
 
 # Etape finale : génération du string d'identification
 def inscription_user():
-    taille=int(input('Quelle taille de clés voulez vous ? '))
+    taille = int(input('Quelle taille de clés voulez vous ? '))
     if taille > 1023:
-        key=generer_couple_cles(taille)
-        user=generer_user(key)
+        key = generer_couple_cles(taille)
+        user = generer_user(key)
         return user
     else:
         print("La taille de la clé n'est pas assez grande")
         return None
-

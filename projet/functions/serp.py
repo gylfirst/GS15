@@ -6,24 +6,23 @@ def function_serp():
     FinPerm = np.arange(128)
     TAB = np.arange(128)
 
-    def swap(array,a,b):
-    #    print(a,b)
-        tmp=array[a]
-        array[a]=array[b]
-        array[b]=tmp
+    def swap(array, a, b):
+        #    print(a,b)
+        tmp = array[a]
+        array[a] = array[b]
+        array[b] = tmp
         return array
 
     for i in range(127):
         IniPerm[i] = (32 * i) % 127
 
     for i in range(127):
-        FinPerm[i] =  (4 * i) % 127
+        FinPerm[i] = (4 * i) % 127
 
     for i in range(127):
         TAB[i] = FinPerm[IniPerm[i]]
 
     print(TAB)
-
 
     # From python reference implementation : https://www.cl.cam.ac.uk/~fms27/serpent/serpent-0.py.html
     IPTable = [
@@ -33,8 +32,8 @@ def function_serp():
 
     print(" print(IniPerm == IPTable) ")
     for i in range(127):
-        print( i , IniPerm[i] , IPTable[i] , IniPerm[i] == IPTable[i]) 
+        print(i, IniPerm[i], IPTable[i], IniPerm[i] == IPTable[i])
 
     print(" print(FinPerm == FPTable) ")
     for i in range(127):
-        print( i , FinPerm[i] , FPTable[i] , FinPerm[i] == FPTable[i]) 
+        print(i, FinPerm[i], FPTable[i], FinPerm[i] == FPTable[i])
