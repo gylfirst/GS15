@@ -35,7 +35,7 @@ def recuperer_info(user):
 # Récuperer identifiants et signature depuis le string du certificat
 def recuperer_info_cert(user):
     parties = user.split(':')
-    return parties[0], parties[1]
+    return parties[0], parties[1], parties[2]
 
 
 # Lecture et récupération des informations du fichier user_ids.txt
@@ -44,19 +44,20 @@ def read_user_info(email):
     for utilisateur in read_file(user_file_path):
         info = recuperer_info(utilisateur)
         if email.strip() == info[0]:
-            print("Utilisateur trouvé dans la base de données")
+            # print("Utilisateur trouvé dans la base de données")
             return info
         else:
             cpt += 1
     if cpt == len(list(read_file(user_file_path))):
-        print("Utilisateur non trouvé dans la base de données")
+        # print("Utilisateur non trouvé dans la base de données")
+        return None
 
 
 # Enregistrement du certificat dans le fichier
-def log_cert(user, certificate):
+def log_cert(user, certificate, date):
     try:
         with open(cert_file_path, 'a') as file:
-            file.write(user+':'+str(certificate) + '\n')
+            file.write(user + ':' + str(certificate) + ':' + str(date) + '\n')
         print("Certificat enregistré avec succès.")
     except Exception as e:
         print(f"Erreur lors de l'enregistrement du certificat : {e}")
@@ -68,9 +69,10 @@ def read_cert_info(email):
     for utilisateur in read_file(cert_file_path):
         info = recuperer_info_cert(utilisateur)
         if email.strip() == info[0]:
-            print("Certificat trouvé dans la base de données")
+            # print("Certificat trouvé dans la base de données")
             return info
         else:
             cpt += 1
     if cpt == len(list(read_file(cert_file_path))):
-        print("Certificat non trouvé dans la base de données")
+        # print("Certificat non trouvé dans la base de données")
+        return None

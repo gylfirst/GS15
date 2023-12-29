@@ -6,6 +6,8 @@ import functions.serp as serp
 import functions.inscription as inscription
 import functions.store as store
 import functions.certificat as certificat
+import functions.date as date
+import functions.verif as verif
 
 # Fonction de chiffrement, déchiffrement de message
 
@@ -18,7 +20,10 @@ def def1():
 
 def def2():
     infos = inscription.inscription_user()
-    store.log_user(infos)
+    if not verif.check_user_exist(infos.split(':')[0]):
+        store.log_user(infos)
+    else:
+        print("L'utilisateur existe déjà")
     return
 
 # Signature d'un certificat
@@ -26,10 +31,16 @@ def def2():
 
 def def3():
     email = str(input("Quelle adresse mail voulez-vous recuperer ? "))
-    user = store.read_user_info(email)
-    certificat_utilisateur = certificat.generer_certificat(
-        user[0], int(user[1]), int(user[2]))
-    store.log_cert(user[0], certificat_utilisateur)
+    if verif.check_user_exist(email):
+        if not verif.check_cert_exist(email):
+            user = store.read_user_info(email)
+            certificat_utilisateur = certificat.generer_certificat(
+                user[0], int(user[1]), int(user[2]))
+            store.log_cert(user[0], certificat_utilisateur, date.get_date())
+        else:
+            print("Certificat déjà trouvé")
+    else:
+        print("Utilisateur non trouvée")
     return
 
 # Vérification d'un certificat
@@ -37,9 +48,15 @@ def def3():
 
 def def4():
     email = str(input("Quelle adresse mail voulez-vous recuperer ? "))
-    user = store.read_user_info(email)
-    cert = store.read_cert_info(email)
-    certificat.verifier_certificat(user, int(cert[1]))
+    if verif.check_user_exist(email):
+        if verif.check_cert_exist(email):
+            user = store.read_user_info(email)
+            cert = store.read_cert_info(email)
+            certificat.verifier_certificat(user, int(cert[1]), cert[2])
+        else:
+            print("Certificat non existant")
+    else:
+        print("Utilisateur non trouvée")
     return
 
 # Enregistrement d'un document dans un locker
