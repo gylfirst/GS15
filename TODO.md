@@ -7,7 +7,6 @@
 - Faire la communication asynchrone
 - Preuve de connaissance
 
-
 ## A faire :
 
 - Modifier pour prendre en compte les numéros de téléphones en identifiant (uniquement email pour le moment)
