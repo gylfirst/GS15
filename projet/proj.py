@@ -1,4 +1,5 @@
 # Importation des libraries
+
 import numpy as np
 import os
 import bitarray as ba
@@ -10,14 +11,11 @@ import functions.date as date
 import functions.verif as verif
 
 # Fonction de chiffrement, déchiffrement de message
-
-
 def def1():
     return
 
+
 # Création d'un couple de clé publique/privée
-
-
 def def2():
     infos = inscription.inscription_user()
     if not verif.check_user_exist(infos.split(':')[0]):
@@ -26,9 +24,8 @@ def def2():
         print("L'utilisateur existe déjà")
     return
 
+
 # Signature d'un certificat
-
-
 def def3():
     email = str(input("Quelle adresse mail voulez-vous recuperer ? "))
     if verif.check_user_exist(email):
@@ -43,43 +40,41 @@ def def3():
         print("Utilisateur non trouvée")
     return
 
+
 # Vérification d'un certificat
-
-
 def def4():
     email = str(input("Quelle adresse mail voulez-vous recuperer ? "))
     if verif.check_user_exist(email):
         if verif.check_cert_exist(email):
             user = store.read_user_info(email)
             cert = store.read_cert_info(email)
-            certificat.verifier_certificat(user, int(cert[1]), cert[2])
+            expired = certificat.verifier_certificat(
+                user, int(cert[1]), cert[2])
+            if expired:
+                store.del_exp_cert(email)
         else:
             print("Certificat non existant")
     else:
         print("Utilisateur non trouvée")
     return
 
+
 # Enregistrement d'un document dans un locker
-
-
 def def5():
     return
 
+
 # Envoie d'un message en asynchrone
-
-
 def def6():
     return
 
+
 # Demande d'une preuve de connaissance
-
-
 def def7():
     return
 
+
 # Fonction de création du menu, à l'aide d'un switch case
-
-
 def menu():
     # while True:
     print("Bonjour ô maître Rémi ! Que souhaitez vous faire aujourd'hui ?")

@@ -1,6 +1,7 @@
 # Module implémentant la fonction de hashage
 
 
+# Fonction de hash
 def hash(message):
     # Définition des constantes
     h0 = 0x6a09e667

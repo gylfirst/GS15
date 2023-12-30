@@ -4,8 +4,6 @@ import functions.hash as hashf
 import functions.date as d
 
 # Fonction pour générer et signer un certificat
-
-
 def generer_certificat(email, cle_publique, cle_privee):
     certificat = f"Email: {email}\nClé publique: {cle_publique}\n"
 
@@ -32,7 +30,9 @@ def verifier_certificat(user, signature, date):
     if signature == signature_base:
         if d.get_date() < d.get_exp_date(int(date)):
             print("Le certificat est valide")
+            return False
         else:
             print("Le certificat est expiré")
+            return True
     else:
-        print("Le certificat n'est pas valide")
+        print("Le certificat n'est pas valide (signature différente)")

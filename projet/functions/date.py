@@ -1,18 +1,18 @@
 # Module de la gestion des dates
 
+import time
+from datetime import datetime, timedelta
 
+# Recupère la date d'aujourd'hui
 def get_date():
-    import time
-
     current_timestamp = int(time.time())
     # print("Current Timestamp:", current_timestamp)
 
     return current_timestamp
 
 
+# Récupère la date donnée et l'avance de 3 mois
 def get_exp_date(date):
-    from datetime import datetime, timedelta
-
     # Convert the timestamp to a datetime object
     date_time = datetime.utcfromtimestamp(date)
 

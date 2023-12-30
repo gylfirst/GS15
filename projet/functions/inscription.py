@@ -3,11 +3,8 @@
 from random import getrandbits
 
 # Etape 1 : génération de couple de clés publiques et privées (1024 bits minimum)
-
-
 def generer_nombre_premier(taille):
     def est_premier(n, k=5):
-
         # Vérification si un nombre est premier.
         if n == 2 or n == 3:
             return True
@@ -64,5 +61,5 @@ def inscription_user():
         user = generer_user(key)
         return user
     else:
-        print("La taille de la clé n'est pas assez grande")
+        print("La taille de la clé n'est pas assez grande.")
         return None

@@ -2,7 +2,7 @@
 
 import functions.store as store
 
-
+# Verifie si l'utilisateur existe dans le fichier
 def check_user_exist(email):
     user = store.read_user_info(email)
     if user != None:
@@ -11,6 +11,7 @@ def check_user_exist(email):
         return False
 
 
+# Verifie si le certificat existe dans le fichier
 def check_cert_exist(email):
     cert = store.read_cert_info(email)
     if cert != None:

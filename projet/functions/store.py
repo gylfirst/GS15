@@ -4,8 +4,6 @@ user_file_path = "projet/logs/user_ids.txt"
 cert_file_path = "projet/logs/certs.txt"
 
 # Enregistrement des logs des utilisateurs
-
-
 def log_user(user):
     try:
         with open(user_file_path, 'a') as file:
@@ -44,12 +42,12 @@ def read_user_info(email):
     for utilisateur in read_file(user_file_path):
         info = recuperer_info(utilisateur)
         if email.strip() == info[0]:
-            # print("Utilisateur trouvé dans la base de données")
+            # print("Utilisateur trouvé dans la base de données.")
             return info
         else:
             cpt += 1
     if cpt == len(list(read_file(user_file_path))):
-        # print("Utilisateur non trouvé dans la base de données")
+        # print("Utilisateur non trouvé dans la base de données.")
         return None
 
 
@@ -74,5 +72,29 @@ def read_cert_info(email):
         else:
             cpt += 1
     if cpt == len(list(read_file(cert_file_path))):
-        # print("Certificat non trouvé dans la base de données")
+        # print("Certificat non trouvé dans la base de données.")
         return None
+
+
+# Supression du certificat si expiré
+def del_exp_cert(email):
+    try:
+        # Lecture du fichier certs.txt
+        cert_lines = list(read_file(cert_file_path))
+
+        # Recherche de la ligne correspondant à l'e-mail
+        for i, cert_info in enumerate(cert_lines):
+            info = recuperer_info_cert(cert_info)
+            if email == info[0]:
+                # Suppression de la ligne correspondant à l'e-mail
+                del cert_lines[i]
+
+                # Réécriture du fichier certs.txt
+                with open(cert_file_path, 'w') as file:
+                    for line in cert_lines:
+                        file.write(line + '\n')
+
+                print("Certificat expiré supprimé avec succès.")
+                return  # Sortir de la fonction après la suppression
+    except Exception as e:
+        print(f"Erreur lors de la suppression du certificat expiré : {e}")
