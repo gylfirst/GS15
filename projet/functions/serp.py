@@ -62,6 +62,20 @@ def get_random(sbox):
     print("Pourcentage de SBOXs similaires :",str(((cpt-1)/32)*100)+'%')
 
 
+# Fonction de décalage de bits (avec perte)
+def left_shift(value, k, direction):
+    if direction == 'right':    
+        # Effectuer un décalage binaire vers la droite de k bits
+        result = value >> k
+        return result
+    elif direction == 'left':
+        # Effectuer un décalage binaire vers la gauche de k bits
+        result = value << k
+        return result
+    else:
+        print("Direction non valide")
+
+
 # Transformation Linéaire
 def linear_transfo():
     
