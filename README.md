@@ -1,6 +1,6 @@
 # GS15
 
-Ce projet est un logiciel de PKI (Public Key Infrastructure), implémenté en Python. Ce projet rendre dans le cadre de nos études à l'UTT.
+Ce projet est un logiciel de PKI (Public Key Infrastructure), implémenté en Python. Ce projet rentre dans le cadre de nos études à l'UTT.
 
 ## Fonctionnalités
 

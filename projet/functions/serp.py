@@ -30,6 +30,7 @@ def function_serp():
     #     print(i, FinPerm[i], FPTable[i], FinPerm[i] == FPTable[i])
 
 
+# Fonction permettant l'échange de deux données dans un array
 def swap(array, a, b):
     # print(a,b)
     tmp = array[a]
@@ -38,6 +39,7 @@ def swap(array, a, b):
     return array
 
 
+# Fonction permettant le mélange des valeurs dans les SBOXs
 def sbox_swap(sbox):
     new_sbox=sbox.copy()
     for index_box in range(32):
@@ -46,6 +48,79 @@ def sbox_swap(sbox):
             j = sbox[i][index_bits]
             swap(new_sbox, new_sbox[index_box][index_bits], new_sbox[index_box][j])
     return new_sbox
+
+
+# Vérification de l'aléatoire dans les SBOXs
+def get_random(sbox):
+    for i in range(31):
+        sbox[i+1]=sbox_swap(sbox[i])
+    ref=sbox[0]
+    cpt=0
+    for soussbox in sbox:
+        if (soussbox==ref):
+            cpt+=1
+    print("Pourcentage de SBOXs similaires :",str(((cpt-1)/32)*100)+'%')
+
+
+# Transformation Linéaire
+def linear_transfo():
+    
+    return
+
+
+# Génération de la clé d'itération initiale
+def generate_init_key():
+    import random
+
+    # Générer une clé de 256 bits (32 octets)
+    random_key = bytearray(random.getrandbits(8) for i in range(32))
+
+    # Diviser la clé en 8 blocs de 32 bits
+    key_blocks = [random_key[i:i + 4] for i in range(0, len(random_key), 4)]
+
+    # # Afficher la clé complète et les blocs
+    # print("Clé complète (en hexadécimal):", random_key.hex())
+    # print("\nBlocs de 32 bits:")
+    # for i, block in enumerate(key_blocks, 1):
+    #     print(f"Bloc {i}: {block.hex()}")
+    return key_blocks
+
+
+# Fonction de la permutation circulaire
+def circular_permutation(value, n, direction):
+    value_as_int = int.from_bytes(value, 'big')
+    result = ((value_as_int << n) | (value_as_int >> (32 - n))) & 0xFFFFFFFF
+    return result.to_bytes(4, 'big')
+
+
+# Fonction du calcul des blocs supplémentaires de la clé d'itération
+def calculate_wi(w8, w5, w3, w1, omega, i):
+    result = bytes(x ^ y for x, y in zip(w8, w5))
+    result = bytes(x ^ y for x, y in zip(result, w3))
+    result = bytes(x ^ y for x, y in zip(result, w1))
+    result = bytes(x ^ y for x, y in zip(result, omega.to_bytes(4, 'big')))
+    result = bytes(x ^ y for x, y in zip(result, i.to_bytes(4, 'big')))
+    
+    result = circular_permutation(result, 11, 'left')   
+    return bytearray(result)
+
+
+# Génération des blocs supplémentaires
+def generate_iter_blocs(w):
+    omega=0x9e3779b9
+    for i in range(8,132,1):
+        result=calculate_wi(w[i-8],w[i-5],w[i-3],w[i-1],omega,i)
+        w.append(result)
+    return w
+
+
+# Fonction de construction des différentes clés d'itération
+def generate_iter_keys(blocks):
+    keys=[]
+    for i in range(33):
+        key=str(blocks[i*4].hex())+str(blocks[i*4+1].hex())+str(blocks[i*4+2].hex())+str(blocks[i*4+3].hex())
+        keys.append(key)
+    return keys
 
 
 sbox=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
@@ -93,17 +168,11 @@ sbox[0] = [
     [2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11]
 ]
 
-#function_serp()
 
-
-# Vérification de l'aléatoire dans les SBOXs
-def get_random(sbox):
-    for i in range(31):
-        sbox[i+1]=sbox_swap(sbox[i])
-    ref=sbox[0]
-    cpt=0
-    for soussbox in sbox:
-        if (soussbox==ref):
-            cpt+=1
-    print("Pourcentage de SBOXs similaires :",str(((cpt-1)/32)*100)+'%')
+# function_serp()
+# w=generate_init_key()
+# wb=generate_iter_blocs(w)
+# iter_keys=generate_iter_keys(wb)
+# for i in range(len(iter_keys)):
+#     print(iter_keys[i])
 
