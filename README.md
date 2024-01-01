@@ -10,6 +10,7 @@ Ce projet est un logiciel de PKI (Public Key Infrastructure), implémenté en Py
 - Enregistrement de fichiers chiffrés dans un 'coffre-fort'.
 - Envoie de messages chiffrés et asynchrone.
 - Gestion des preuves de connaissances.
+- Vérification de la présence des fichiers à l'initialisation du programme.
 
 ## Prérequis
 

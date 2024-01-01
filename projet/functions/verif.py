@@ -18,3 +18,12 @@ def check_cert_exist(email):
         return True
     else:
         return False
+
+
+# Vérifie si le message existe déjà dans le locker
+def check_encrypt_exist(message_chiffre):
+    msg=store.read_encrypt_info(message_chiffre)
+    if msg != None:
+        return True
+    else:
+        return False

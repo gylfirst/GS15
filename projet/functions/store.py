@@ -2,6 +2,7 @@
 
 user_file_path = "projet/logs/user_ids.txt"
 cert_file_path = "projet/logs/certs.txt"
+locker_file_path = "projet/logs/locker.txt"
 
 # Enregistrement des logs des utilisateurs
 def log_user(user):
@@ -98,3 +99,27 @@ def del_exp_cert(email):
                 return  # Sortir de la fonction après la suppression
     except Exception as e:
         print(f"Erreur lors de la suppression du certificat expiré : {e}")
+
+
+# Lecture du locker pour récuperer les messages
+def read_encrypt_info(message_chiffre):
+    cpt = 0
+    for message in read_file(locker_file_path):
+        if message == message_chiffre:
+            # print("Message chiffré trouvé dans le locker.")
+            return message
+        else:
+            cpt += 1
+    if cpt == len(list(read_file(locker_file_path))):
+        # print("Message chiffré non trouvé dans le locker.")
+        return None
+
+
+# Enregistrement du message chiffré dans le locker
+def log_message_locker(message_chiffre):
+    try:
+        with open(locker_file_path, 'a') as file:
+            file.write(message_chiffre + '\n')
+        print("Message enregistré avec succès dans le locker.")
+    except Exception as e:
+        print(f"Erreur lors de l'enregistrement de l'utilisateur : {e}")

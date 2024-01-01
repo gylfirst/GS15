@@ -3,12 +3,14 @@
 import numpy as np
 import os
 import bitarray as ba
+import functions.init as init
 import functions.serp as serp
 import functions.inscription as inscription
 import functions.store as store
 import functions.certificat as certificat
 import functions.date as date
 import functions.verif as verif
+import functions.register_file as rf
 
 # Fonction de chiffrement, déchiffrement de message
 def def1():
@@ -61,6 +63,12 @@ def def4():
 
 # Enregistrement d'un document dans un locker
 def def5():
+    message=str(input("Quel message voulez-vous mettre dans le coffre-fort ? "))
+    msg=rf.chiffre_vigenere(message)
+    if not verif.check_encrypt_exist(msg):
+        store.log_message_locker(msg)
+    else:
+        print("Message déjà trouvé dans le locker.")
     return
 
 
@@ -116,4 +124,8 @@ def menu():
 
 
 # Execution du script
-menu()
+if init.start():
+    print("Initialisation complète !\nLancement du logiciel en cours....\n\n")
+    menu()
+else:
+    print("Initialisation non réussie...\nMerci de ré-essayer.")
