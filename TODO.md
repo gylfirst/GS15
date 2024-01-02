@@ -4,7 +4,7 @@
 
 - S'occuper de la partie de chiffrement/déchiffrement Serpent
 - Enregistrement sécurisé de fichier ✅ (à complexifier peut être)
-- Faire la communication asynchrone
+- Faire la communication asynchrone (Nécessite Serpent)
 - Preuve de connaissance
 
 ## A faire :

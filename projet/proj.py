@@ -34,7 +34,7 @@ def def3():
         if not verif.check_cert_exist(email):
             user = store.read_user_info(email)
             certificat_utilisateur = certificat.generer_certificat(
-                user[0], int(user[1]), int(user[2]))
+                user[0], int(user[1]))
             store.log_cert(user[0], certificat_utilisateur, date.get_date())
         else:
             print("Certificat déjà trouvé")
