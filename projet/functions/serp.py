@@ -18,6 +18,7 @@ def swap(array, a, b):
     return array
 
 
+# Fonction permettant le mélange des valeurs dans les SBOXs
 def sbox_swap(sbox):
     new_sbox = sbox.copy()
     for index_box in range(32):
