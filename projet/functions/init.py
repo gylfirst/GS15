@@ -13,7 +13,8 @@ def start():
         "projet/functions/hash.py",
         "projet/functions/date.py",
         "projet/functions/verif.py",
-        "projet/functions/register_file.py"
+        "projet/functions/register_file.py",
+        "projet/functions/proof.py"
     ]
 
     # Vérification de la présence des fichiers de logs

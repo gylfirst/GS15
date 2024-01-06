@@ -11,6 +11,7 @@ import functions.certificat as certificat
 import functions.date as date
 import functions.verif as verif
 import functions.register_file as rf
+import functions.proof as proof
 
 # Fonction de chiffrement, déchiffrement de message
 def def1():
@@ -79,6 +80,14 @@ def def6():
 
 # Demande d'une preuve de connaissance
 def def7():
+    email = str(input("Pour quelle adresse mail voulez-vous vérifier la preuve de connaissance ? "))
+    if verif.check_user_exist(email):
+        if proof.preuve_connaissance(email):
+            print("La preuve de connaissance est validée")
+        else:
+            print("La preuve de connaissance n'est pas valide.")
+    else:
+        print("Utilisateur non trouvée")
     return
 
 

@@ -11,6 +11,7 @@ def get_key_var(key):
     keys=key.split(":")
     tuples = [ast.literal_eval(chaine) for chaine in keys]
     
+    # Return n, e, d 
     return tuples[0][0], tuples[0][1], tuples[1][1]
 
 

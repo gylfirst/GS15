@@ -3,9 +3,9 @@
 ## Urgent :
 
 - S'occuper de la partie de chiffrement/déchiffrement Serpent ✅
-- Enregistrement sécurisé de fichier ✅ (à complexifier peut être)
+- Enregistrement sécurisé de fichier ✅ (à complexifier-peut être)
 - Faire la communication asynchrone (Nécessite Serpent)
-- Preuve de connaissance
+- Preuve de connaissance ✅ (peut-être à complexifier)
 
 ## A faire :
 
