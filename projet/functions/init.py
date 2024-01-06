@@ -21,7 +21,8 @@ def start():
     files_paths = [
         "projet/logs/user_ids.txt",
         "projet/logs/certs.txt",
-        "projet/logs/locker.txt"
+        "projet/logs/locker.txt",
+        "projet/logs/crypted_msg.txt"
     ]
 
     def verifier_existence_fichiers(paths):

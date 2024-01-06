@@ -1,8 +1,11 @@
 # Module d'enregistrement dans un fichier
 
+#import functions.serp as serp
+
 user_file_path = "projet/logs/user_ids.txt"
 cert_file_path = "projet/logs/certs.txt"
 locker_file_path = "projet/logs/locker.txt"
+#msg_crypt_file_path = "projet/logs/crypted_msg.txt"
 
 # Enregistrement des logs des utilisateurs
 def log_user(user):
@@ -123,3 +126,41 @@ def log_message_locker(message_chiffre):
         print("Message enregistré avec succès dans le locker.")
     except Exception as e:
         print(f"Erreur lors de l'enregistrement de l'utilisateur : {e}")
+
+"""
+# Fonction pour stocker les messages et les clés chiffrés avec Serpent
+def log_crypt(message):
+    words, key = serp.chiff(message)
+    key_hex=[]
+    for item in key:
+        key_hex.append(item.hex())
+    try:
+        with open(msg_crypt_file_path, 'a') as file:
+            file.write(f"{words}:{key_hex}\n")
+        print(f"Votre message '{message}' chiffré est le suivant :\n{words}")
+        print("Message chiffré enregistré avec succès.")
+    except Exception as e:
+        print(f"Erreur lors de l'enregistrement du message chiffré : {e}")
+
+
+# Fonction pour récupérer les messages et les clés chiffrés avec Serpent
+def read_crypt(message):
+    import ast
+    # Parcourir les lignes du fichier
+    try:
+        with open(msg_crypt_file_path, 'r') as f:
+            for line in f:
+                encrypted_message, key_hex = line.strip().split(':')
+                key_list = ast.literal_eval(key_hex)
+                encrypted_message=ast.literal_eval(encrypted_message)
+                key_bytes = [bytearray.fromhex(hex_string) for hex_string in key_list]
+                print(encrypted_message)
+                if message == encrypted_message:
+                    decrypted_words = serp.unchiff(encrypted_message, key_bytes)
+                    decrypted_text = serp.get_text_from_words(decrypted_words)
+                    return decrypted_text
+                else:
+                    print("nop")
+    except Exception as e:
+        print(f"Erreur lors de la lecture du fichier : {e}")
+"""

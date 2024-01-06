@@ -3,6 +3,7 @@
 import numpy as np
 import os
 import bitarray as ba
+import subprocess
 import functions.init as init
 import functions.serp as serp
 import functions.inscription as inscription
@@ -15,6 +16,24 @@ import functions.proof as proof
 
 # Fonction de chiffrement, déchiffrement de message
 def def1():
+    # Temporaire
+    script_path = 'projet/functions/serp.py'
+    subprocess.run(['python', script_path])
+    
+    # Faire la fonction qui enregistre dans un fichier et qui peut le déchiffrer depuis la lecture du fichier
+    """ 
+    choice=input("Voulez vous chiffrer (1) ou déchiffrer (2) un message ? ")
+        match choice:
+            case "1":
+                message_to_crypt = str(input("Quel est votre message ? "))
+                store.log_crypt(message_to_crypt)
+            case "2":
+                message_to_uncrypt = str(input("Quel est votre message à déchiffrer ? "))
+                msg_uncrypt = store.read_crypt(message_to_uncrypt)
+                print(f"Votre message '{message_to_uncrypt}' déchiffré est le suivant :\n{msg_uncrypt}")
+            case _:
+                print("Vous avez fait une erreur dans la selection !") 
+    """
     return
 
 

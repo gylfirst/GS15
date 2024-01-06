@@ -1,6 +1,6 @@
 # Module de l'algorithme de chiffrement symétrique par bloc SERPENT
-import numpy as np
 
+import numpy as np
 
 # Fonction de padding
 def padding(value, index):
@@ -11,6 +11,7 @@ def padding(value, index):
     return value
 
 
+# Fonction d'échange de valeur dans un array
 def swap(array, a, b):
     tmp = array[a]
     array[a] = array[b]
@@ -76,6 +77,7 @@ sbox[0] = [
 ]
 
 
+# Fonction de génération de toutes les sboxs
 def generate_sbox():
     global sbox
     for i in range(31):
@@ -83,6 +85,7 @@ def generate_sbox():
     return sbox
 
 
+# Fonction de création de l'array d'échange initial
 def initial_swap(array):
     copy_arr = array.copy()
     IniPerm = np.arange(128)
@@ -93,6 +96,7 @@ def initial_swap(array):
     return array
 
 
+# Fonction de création de l'array pour l'échange final
 def final_swap(array):
     copy_arr = array.copy()
     FinPerm = np.arange(128)
@@ -133,9 +137,6 @@ def generate_iter_keys(blocks):
     keys = []
     for i in range(33):
         key = [blocks[i * 4].hex(), blocks[i * 4 + 1].hex(), blocks[i * 4 + 2].hex(), blocks[i * 4 + 3].hex()]
-        # for j in range(4):
-        #     key[j]=int(key[j],16)
-        # key=str(key[0])+str(key[1])+str(key[2])+str(key[3])
         bin_key = [bin(int(key, 16))[2:] for key in key]
         bin_key = [padding(key, 32) for key in bin_key]
         bin_key = bin_key[0] + bin_key[1] + bin_key[2] + bin_key[3]
@@ -143,8 +144,8 @@ def generate_iter_keys(blocks):
     return keys
 
 
-# Fonction de la permutation circulaire
-def circular_permutation(value, n, direction):
+# Fonction de la permutation circulaire à gauche
+def circular_permutation(value, n):
     value_as_int = int.from_bytes(value, 'big')
     result = ((value_as_int << n) | (value_as_int >> (32 - n))) & 0xFFFFFFFF
     return result.to_bytes(4, 'big')
@@ -194,7 +195,7 @@ def calculate_wi(w8, w5, w3, w1, omega, i):
     result = bytes(x ^ y for x, y in zip(result, omega.to_bytes(4, 'big')))
     result = bytes(x ^ y for x, y in zip(result, i.to_bytes(4, 'big')))
 
-    result = circular_permutation(result, 11, 'left')
+    result = circular_permutation(result, 11)
     return bytearray(result)
 
 
@@ -207,6 +208,7 @@ def generate_iter_blocs(w):
     return w
 
 
+# Fonction d'inversion des sboxs dans le déchiffrage (à partir de nombres)
 def revert_s_box(part, s_box):
     if len(part) != 4:
         raise ValueError("La longueur de la partie doit être de 4 bits")
@@ -221,6 +223,7 @@ def revert_s_box(part, s_box):
     return result
 
 
+# Fonction d'application des sboxs pour le chiffrage (à partir de nombres)
 def apply_s_box(part, s_box):
     if len(part) != 4:
         raise ValueError("La longueur de la partie doit être de 4 bits")
@@ -235,6 +238,7 @@ def apply_s_box(part, s_box):
     return result
 
 
+# Fonction d'inversion des sboxs dans le déchiffrage (à partir de mots)
 def revert_s_box_to_words(words, s_box):
     result_words = []
     for i in range(len(words)):
@@ -255,7 +259,7 @@ def revert_s_box_to_words(words, s_box):
 
     return result_words
 
-
+# Fonction d'application des sboxs pour le chiffrage (à partir de mots)
 def apply_s_box_to_words(words, s_box):
     result_words = []
     for i in range(len(words)):
@@ -277,7 +281,7 @@ def apply_s_box_to_words(words, s_box):
     return result_words
 
 
-# Transformation Linéaire
+# Transformation Linéaire en application
 def linear_transfo(message, itt, key):
     global sbox
 
@@ -320,6 +324,7 @@ def linear_transfo(message, itt, key):
     return message
 
 
+# Transformation Linéaire en application inverse
 def revert_linear_transfo(word, itt, key):
     message = []
     for i in range(4):
@@ -356,6 +361,7 @@ def revert_linear_transfo(word, itt, key):
     return words
 
 
+# Fonction de génération des mots en binaire
 def generate_words(msg):
     arr = bytes(msg, 'latin-1')
     words = [""]
@@ -369,6 +375,7 @@ def generate_words(msg):
     return words
 
 
+# Fonction de génération du texte à partir des mots déchiffrés
 def get_text_from_words(words):
     arr = []
     for word in words:
@@ -383,9 +390,9 @@ def get_text_from_words(words):
     return txt
 
 
-def chiff():
+# Fonction globale de chiffrement de message
+def chiff(msg):
     global sbox
-    msg = "Débug des XOR, plus jamais de ma vie"
     words = generate_words(msg)
     # Génération des SBOXs
     sbox = generate_sbox()
@@ -435,6 +442,7 @@ def chiff():
     return final_words, w
 
 
+# Fonction globale de déchiffrement
 def unchiff(words, key):
     global sbox
     # Génération des clés
@@ -486,8 +494,11 @@ def unchiff(words, key):
 
 
 if __name__ == '__main__':
-    words, key = chiff()
-    print(words)
+    msg=str(input("Quel est le message ? "))
+    words, key = chiff(msg)
+    print(f"Le message '{msg}' chiffré est le suivant :\n{words}")
+    #print(words, key)
     txt = unchiff(words, key)
-    print(txt)
-    print(get_text_from_words(txt))
+    #print(txt)
+    msg_uncrypt = get_text_from_words(txt)
+    print(f"Le message {words} déchiffré est le suivant :\n{msg_uncrypt}")
