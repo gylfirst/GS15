@@ -1,47 +1,61 @@
 # Module d'inscription pour les utilisateurs
 
-from random import getrandbits
+import random
 
-# Etape 1 : génération de couple de clés publiques et privées (1024 bits minimum)
-def generer_nombre_premier(taille):
-    def est_premier(n, k=5):
-        # Vérification si un nombre est premier.
-        if n == 2 or n == 3:
-            return True
-        if n <= 1 or n % 2 == 0:
+# Etape 1 : génération de couple de clés publique et privée RSA (1024 bits minimum)
+def generer_cles(taille):
+    # Fonction pour définir si un nombre est premier ou non
+    def est_premier(nombre, tests=5):
+        if nombre < 2:
             return False
-
-        # Écriture de n - 1 comme 2^r * d avec d impair
-        r, d = 0, n - 1
-        while d % 2 == 0:
-            r += 1
-            d //= 2
-
-        # Test de la primalité k fois
-        for _ in range(k):
-            a = getrandbits(n.bit_length())
-            x = pow(a, d, n)
-            if x == 1 or x == n - 1:
-                continue
-            for _ in range(r - 1):
-                x = pow(x, 2, n)
-                if x == n - 1:
-                    break
-            else:
+        for _ in range(tests):
+            a = random.randint(2, nombre - 1)
+            if pow(a, nombre - 1, nombre) != 1:
                 return False
         return True
 
-    # Génération des nombres aléatoires jusqu'à trouver un nombre premier
-    while True:
-        nombre = getrandbits(taille)
-        if est_premier(nombre):
-            return nombre
+    # Fonction pour générer un nombre premier
+    def generer_nombre_premier(bits):
+        # Générer un nombre aléatoire de bits et s'assurer qu'il est premier
+        nombre = random.getrandbits(bits)
+        while not est_premier(nombre):
+            nombre = random.getrandbits(bits)
+        return nombre
+
+    # Foncion permettant de calculer l'inverse modulaire
+    def inverse_modulaire(a, m):
+        # Calculer l'inverse modulaire de a modulo m
+        m0, x0, x1 = m, 0, 1
+        while a > 1:
+            q = a // m
+            m, a = a % m, m
+            x0, x1 = x1 - q * x0, x0
+        return x1 + m0 if x1 < 0 else x1
+
+    # Génération de deux nombres premiers aléatoires
+    p = generer_nombre_premier(taille)
+    q = generer_nombre_premier(taille)
+
+    # Calcul des constantes de RSA
+    n = p * q
+    phi_n = (p - 1) * (q - 1)
+
+    # Choisir un exposant de chiffrement e
+    e = 65537
+
+    # Calculer l'exposant de déchiffrement d
+    d = inverse_modulaire(e, phi_n)
+
+    # Retourner la clé publique et privée
+    cle_publique = (n, e)
+    cle_privee = (n, d)
+
+    return cle_publique, cle_privee
 
 
-# Clés avec une taille de 1024 bits
+# Fonction générant les couples de clés avec une taille de base de 1024 bits
 def generer_couple_cles(taille):
-    pubkey = generer_nombre_premier(taille)
-    prvkey = generer_nombre_premier(taille)
+    pubkey,prvkey = generer_cles(taille)
     key = str(pubkey)+':'+str(prvkey)
     return key
 

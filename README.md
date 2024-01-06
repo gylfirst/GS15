@@ -4,7 +4,7 @@ Ce projet est un logiciel de PKI (Public Key Infrastructure), implémenté en Py
 
 ## Fonctionnalités
 
-- Génération de clés publiques et privées pour les utilisateurs.
+- Génération de clés publiques et privées pour les utilisateurs. (clés RSA)
 - Gestion des certificats par une authorité.
 - Enregistrement des données dans des fichiers pour la persistance.
 - Enregistrement de fichiers chiffrés dans un 'coffre-fort'.
