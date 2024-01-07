@@ -1,11 +1,11 @@
 # Module d'enregistrement dans un fichier
 
-#import functions.serp as serp
+import functions.serp as serp
 
 user_file_path = "projet/logs/user_ids.txt"
 cert_file_path = "projet/logs/certs.txt"
 locker_file_path = "projet/logs/locker.txt"
-#msg_crypt_file_path = "projet/logs/crypted_msg.txt"
+msg_crypt_file_path = "projet/logs/crypted_msg.txt"
 
 # Enregistrement des logs des utilisateurs
 def log_user(user):
@@ -38,6 +38,12 @@ def recuperer_info(user):
 def recuperer_info_cert(user):
     parties = user.split(':')
     return parties[0], parties[1], parties[2]
+
+
+# Récuperer identifiants, message et clés depuis le string de message chiffré
+def recuperer_info_crypt(user):
+    parties = user.split(':')
+    return parties[0], parties[1], parties[2], parties[3]
 
 
 # Lecture et récupération des informations du fichier user_ids.txt
@@ -127,16 +133,16 @@ def log_message_locker(message_chiffre):
     except Exception as e:
         print(f"Erreur lors de l'enregistrement de l'utilisateur : {e}")
 
-"""
+
 # Fonction pour stocker les messages et les clés chiffrés avec Serpent
-def log_crypt(message):
+def log_crypt(email_from, email_dest, message):
     words, key = serp.chiff(message)
     key_hex=[]
     for item in key:
         key_hex.append(item.hex())
     try:
         with open(msg_crypt_file_path, 'a') as file:
-            file.write(f"{words}:{key_hex}\n")
+            file.write(f"{email_from}:{email_dest}:{words}:{key_hex}\n")
         print(f"Votre message '{message}' chiffré est le suivant :\n{words}")
         print("Message chiffré enregistré avec succès.")
     except Exception as e:
@@ -144,23 +150,15 @@ def log_crypt(message):
 
 
 # Fonction pour récupérer les messages et les clés chiffrés avec Serpent
-def read_crypt(message):
-    import ast
-    # Parcourir les lignes du fichier
-    try:
-        with open(msg_crypt_file_path, 'r') as f:
-            for line in f:
-                encrypted_message, key_hex = line.strip().split(':')
-                key_list = ast.literal_eval(key_hex)
-                encrypted_message=ast.literal_eval(encrypted_message)
-                key_bytes = [bytearray.fromhex(hex_string) for hex_string in key_list]
-                print(encrypted_message)
-                if message == encrypted_message:
-                    decrypted_words = serp.unchiff(encrypted_message, key_bytes)
-                    decrypted_text = serp.get_text_from_words(decrypted_words)
-                    return decrypted_text
-                else:
-                    print("nop")
-    except Exception as e:
-        print(f"Erreur lors de la lecture du fichier : {e}")
-"""
+def read_crypt(user_email):
+    cpt = 0
+    for utilisateur in read_file(msg_crypt_file_path):
+        info = recuperer_info_crypt(utilisateur)
+        if user_email.strip() == info[1]:
+            # print("Utilisateur trouvé dans la base de données.")
+            return info
+        else:
+            cpt += 1
+    if cpt == len(list(read_file(user_file_path))):
+        # print("Utilisateur non trouvé dans la base de données.")
+        return None

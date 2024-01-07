@@ -25,6 +25,12 @@ def start():
         "projet/logs/crypted_msg.txt"
     ]
 
+
+    def verifier_existence_dossier():
+        os.makedirs("projet/logs/", exist_ok=True)
+        return
+
+
     def verifier_existence_fichiers(paths):
         fichiers_inexistants = []
         for path in paths:
@@ -52,6 +58,7 @@ def start():
             return True
 
     def init_log_files():
+        verifier_existence_dossier()
         fichiers_inexistants = verifier_existence_fichiers(files_paths)
         if fichiers_inexistants:
             print("Les fichiers suivants n'existent pas :")

@@ -1,8 +1,5 @@
 # Importation des libraries
 
-import numpy as np
-import os
-import bitarray as ba
 import subprocess
 import functions.init as init
 import functions.serp as serp
@@ -17,24 +14,9 @@ import functions.hash as hash
 
 # Fonction de chiffrement, déchiffrement de message
 def def1():
-    # Temporaire
+    # Exécute le code 'main' du fichier serp.py
     script_path = 'projet/functions/serp.py'
     subprocess.run(['python', script_path])
-    
-    # Faire la fonction qui enregistre dans un fichier et qui peut le déchiffrer depuis la lecture du fichier
-    """ 
-    choice=input("Voulez vous chiffrer (1) ou déchiffrer (2) un message ? ")
-        match choice:
-            case "1":
-                message_to_crypt = str(input("Quel est votre message ? "))
-                store.log_crypt(message_to_crypt)
-            case "2":
-                message_to_uncrypt = str(input("Quel est votre message à déchiffrer ? "))
-                msg_uncrypt = store.read_crypt(message_to_uncrypt)
-                print(f"Votre message '{message_to_uncrypt}' déchiffré est le suivant :\n{msg_uncrypt}")
-            case _:
-                print("Vous avez fait une erreur dans la selection !") 
-    """
     return
 
 
@@ -96,6 +78,30 @@ def def5():
 
 # Envoie d'un message en asynchrone
 def def6():
+    choice=input("Voulez vous chiffrer (1) ou déchiffrer (2) un message ? ")
+    match choice:
+        case "1":
+            loggin_user=str(input("Quelle est votre adresse email ? "))
+            if verif.check_user_exist(loggin_user):
+                destinarire=str(input("Quel est l'email de votre destinataire ? "))
+                if verif.check_user_exist(destinarire):
+                    message_to_crypt = str(input("Quel est votre message ? "))
+                    store.log_crypt(loggin_user, destinarire, message_to_crypt)
+                else:
+                    print("L'utilisateur ciblé n'existe pas.")
+            else:
+                print("Vous n'êtes pas enregistré dans la base de données.")
+        case "2":
+            user_email=str(input("Quelle est votre email ? "))
+            if verif.check_user_exist(user_email):
+                info = store.read_crypt(user_email)
+                if info != None:
+                    print(f"Vous avez reçu un message de la part de : {info[0]}")
+                    # Le déchiffrement ne fonctionne pas si on récupère depuis le fichier
+                    # txt = serp.unchiff(info[2],info[3])
+                    # print(f"Le message est le suivant : {serp.get_text_from_words(txt)}")
+        case _:
+            print("Vous avez fait une erreur dans la selection !") 
     return
 
 
