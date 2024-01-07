@@ -85,10 +85,10 @@ def def4():
 # Enregistrement d'un document dans un locker
 def def5():
     message=str(input("Quel message voulez-vous mettre dans le coffre-fort ? "))
-    hashed_message=hash.hash(message.encode())
-    msg=rf.chiffre_vigenere(hashed_message)
-    if not verif.check_encrypt_exist(msg):
-        store.log_message_locker(msg)
+    msg=rf.chiffre_vigenere(message)
+    hashed_message=hash.hash(msg.encode())
+    if not verif.check_encrypt_exist(hashed_message):
+        store.log_message_locker(hashed_message)
     else:
         print("Message déjà trouvé dans le locker.")
     return
