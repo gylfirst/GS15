@@ -13,6 +13,7 @@ import functions.date as date
 import functions.verif as verif
 import functions.register_file as rf
 import functions.proof as proof
+import functions.hash as hash
 
 # Fonction de chiffrement, déchiffrement de message
 def def1():
@@ -84,7 +85,8 @@ def def4():
 # Enregistrement d'un document dans un locker
 def def5():
     message=str(input("Quel message voulez-vous mettre dans le coffre-fort ? "))
-    msg=rf.chiffre_vigenere(message)
+    hashed_message=hash.hash(message.encode())
+    msg=rf.chiffre_vigenere(hashed_message)
     if not verif.check_encrypt_exist(msg):
         store.log_message_locker(msg)
     else:
