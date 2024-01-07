@@ -13,7 +13,7 @@ def start():
         "projet/functions/hash.py",
         "projet/functions/date.py",
         "projet/functions/verif.py",
-        "projet/functions/register_file.py",
+        "projet/functions/vigenere.py",
         "projet/functions/proof.py"
     ]
 
